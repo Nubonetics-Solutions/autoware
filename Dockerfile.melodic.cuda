@@ -17,8 +17,8 @@ ENV AUTOWARE_WORKSPACE=/home/$USERNAME/autoware.ai
 RUN rm -r /home/$USERNAME/Autoware && mkdir $AUTOWARE_WORKSPACE
 
 # Build Autoware
-RUN bash -c 'mkdir -p /home/$USERNAME/Autoware/src; \
-    cd /home/$USERNAME/Autoware; \
+RUN bash -c 'mkdir -p $AUTOWARE_WORKSPACE/src; \
+    cd $AUTOWARE_WORKSPACE; \
     wget https://gitlab.com/autowarefoundation/autoware.ai/autoware/raw/$VERSION/autoware.ai.repos; \
     vcs import src < autoware.ai.repos; \
     source /opt/ros/$ROS_DISTRO/setup.bash; \
