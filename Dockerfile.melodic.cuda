@@ -1,9 +1,14 @@
 FROM autoware/autoware:latest-melodic-cuda
 
+COPY ./entrypoint.sh /tmp
+
+USER root
+RUN chmod 755 /tmp/entrypoint.sh && \
+    rm -r /home/$USERNAME/Autoware
+
 USER autoware
 
 RUN source ~/.bashrc
-RUN rosdep update
 
 # Configure terminal colors
 RUN gconftool-2 --set "/apps/gnome-terminal/profiles/Default/use_theme_background" --type bool false && \
@@ -14,23 +19,18 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ENV AUTOWARE_WORKSPACE=/home/$USERNAME/autoware.ai
 
-RUN rm -r /home/$USERNAME/Autoware && mkdir $AUTOWARE_WORKSPACE
+RUN mkdir $AUTOWARE_WORKSPACE
 
 # Build Autoware
 RUN bash -c 'mkdir -p $AUTOWARE_WORKSPACE/src; \
     cd $AUTOWARE_WORKSPACE; \
-    wget https://gitlab.com/autowarefoundation/autoware.ai/autoware/raw/$VERSION/autoware.ai.repos; \
+    wget https://gitlab.com/autowarefoundation/autoware.ai/autoware/-/raw/master/autoware.ai.repos; \
     vcs import src < autoware.ai.repos; \
     source /opt/ros/$ROS_DISTRO/setup.bash; \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release'
 
-RUN sudo apt-get update
-RUN sed -i '$ d' /home/$USERNAME/.bashrc
-RUN echo "source $AUTOWARE_WORKSPACE/install/local_setup.bash" >> \
-    /home/$USERNAME/.bashrc
+RUN sudo apt-get update && \
+    sed -i '$ d' /home/$USERNAME/.bashrc && \
+    echo "source $AUTOWARE_WORKSPACE/install/local_setup.bash" >> /home/$USERNAME/.bashrc
 
-COPY ./entrypoint.sh /tmp
-USER root
-RUN chmod 755 /tmp/entrypoint.sh
-USER autoware
 ENTRYPOINT ["/tmp/entrypoint.sh"]
