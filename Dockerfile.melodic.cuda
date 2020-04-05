@@ -30,5 +30,4 @@ RUN echo "source $AUTOWARE_WORKSPACE/install/local_setup.bash" >> \
     /home/$USERNAME/.bashrc
 
 COPY ./entrypoint.sh /tmp
-RUN chmod +x /tmp/entrypoint.sh
 ENTRYPOINT ["/tmp/entrypoint.sh"]
