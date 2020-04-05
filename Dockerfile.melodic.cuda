@@ -25,7 +25,7 @@ RUN bash -c 'mkdir -p $AUTOWARE_WORKSPACE/src; \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release'
 
 RUN sudo apt-get update
-
+RUN sed -i '$ d' /home/$USERNAME/.bashrc
 RUN echo "source $AUTOWARE_WORKSPACE/install/local_setup.bash" >> \
     /home/$USERNAME/.bashrc
 
