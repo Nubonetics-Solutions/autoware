@@ -15,12 +15,11 @@ XSOCK=/tmp/.X11-unix
 XAUTH=$HOME/.Xauthority
 
 SHARED_DOCKER_DIR=/home/autoware/shared_dir
-SHARED_HOST_DIR=`pwd`/nb_modules
+SHARED_HOST_DIR=/home/$USER/shared_dir
 
 VOLUMES="--volume=$XSOCK:$XSOCK:rw
          --volume=$XAUTH:$XAUTH:rw
-         --volume=$SHARED_HOST_DIR:$SHARED_DOCKER_DIR:rw
-         --volume=`pwd`/scripts:/home/autoware/scripts:rw"
+         --volume=$SHARED_HOST_DIR:$SHARED_DOCKER_DIR:rw"
 
 # Run Autoware
 echo "Running ${IMAGE}"
