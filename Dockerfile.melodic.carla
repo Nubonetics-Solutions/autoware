@@ -1,0 +1,21 @@
+FROM nubonetics/autoware:latest-melodic-cuda
+
+USER autoware
+
+RUN source ~/.bashrc
+RUN rosdep update
+
+ENV DOCKER_WORKSPACE=/autoware/autoware.ai
+RUN sudo apt-get update && \
+    sudo apt-get install -y --no-install-recommends software-properties-common apt-utils && \
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 304F9BC29914A77D && \
+    sudo add-apt-repository "deb [arch=amd64 trusted=yes] http://dist.carla.org/carla-0.9.8/ all main" && \
+    sudo apt-get install -y --no-install-recommends carla && \
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA0F9B7406F60E23 && \
+    sudo add-apt-repository "deb [arch=amd64 trusted=yes] http://dist.carla.org/carla-hdmaps/ bionic main" && \
+    sudo apt-get install -y --no-install-recommends carla-hdmaps && \
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 81061A1A042F527D && \
+    sudo add-apt-repository "deb [arch=amd64 trusted=yes] http://dist.carla.org/carla-ros-bridge-melodic/ bionic main" && \
+    sudo apt-get install -y --no-install-recommends carla-ros-bridge-melodic
+
+ENTRYPOINT ["/tmp/entrypoint.sh"]
