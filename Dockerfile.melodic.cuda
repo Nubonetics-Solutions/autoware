@@ -1,6 +1,7 @@
 FROM autoware/autoware:latest-melodic-cuda
 
 COPY ./entrypoint.sh /tmp
+COPY ./requirements.ubuntu /tmp
 
 USER root
 RUN chmod 755 /tmp/entrypoint.sh && \
@@ -9,6 +10,9 @@ RUN chmod 755 /tmp/entrypoint.sh && \
 USER autoware
 
 RUN source ~/.bashrc
+RUN sudo apt-get update && \
+    sed "s/\$ROS_DISTRO/$ROS_DISTRO/g" "/tmp/requirements.ubuntu" | xargs sudo apt-get install -y && \
+    sudo rm -rf /var/lib/apt/lists/*
 
 # Configure terminal colors
 RUN gconftool-2 --set "/apps/gnome-terminal/profiles/Default/use_theme_background" --type bool false && \
@@ -30,7 +34,8 @@ RUN bash -c 'mkdir -p $AUTOWARE_WORKSPACE/src; \
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release'
 
 RUN sudo apt-get update && \
-    sed -i '$ d' /home/$USERNAME/.bashrc && \
+    sed -i '$ d' /home/$USERNAME/.bashrc && \ 
+    echo "source /opt/ros/melodic/setup.bash" >> /home/$USERNAME/.bashrc && \
     echo "source $AUTOWARE_WORKSPACE/install/local_setup.bash" >> /home/$USERNAME/.bashrc
 
 ENTRYPOINT ["/tmp/entrypoint.sh"]
