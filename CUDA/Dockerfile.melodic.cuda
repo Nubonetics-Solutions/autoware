@@ -1,6 +1,5 @@
 FROM autoware/autoware:latest-melodic-cuda
 
-COPY ./entrypoint.sh /tmp
 COPY ./requirements.ubuntu /tmp
 
 USER root
