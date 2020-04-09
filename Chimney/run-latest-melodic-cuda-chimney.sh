@@ -3,8 +3,10 @@
 # Autoware options
 IMAGE_NAME="chimney/autoware"
 IMAGE_TAG=${IMAGE_TAG:-latest}
+ROS_DISTRO=${ROS_DISTRO:-melodic}
 USER_ID=${USER_ID:-"$(id -u)"}
-IMAGE=$IMAGE_NAME:$IMAGE_TAG
+SUFFIX="-cuda"
+IMAGE=$IMAGE_NAME:$IMAGE_TAG-$ROS_DISTRO$SUFFIX
 
 #RUNTIME="--runtime=nvidia"
 RUNTIME="--gpus all"
