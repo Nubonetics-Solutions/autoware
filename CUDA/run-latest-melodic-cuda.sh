@@ -2,7 +2,7 @@
 
 # Autoware options
 IMAGE_NAME="nubonetics/autoware"
-AUTOWARE_TAG=${AUTOWARE_TAG:-latest}
+AUTOWARE_TAG="latest"
 ROS_DISTRO=${ROS_DISTRO:-melodic}
 USER_ID=${USER_ID:-"$(id -u)"}
 SUFFIX="-cuda"

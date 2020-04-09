@@ -2,7 +2,7 @@
 
 # Autoware options
 IMAGE_NAME="autoware"
-AUTOWARE_TAG=${AUTOWARE_TAG:-local} # bleedingedge
+AUTOWARE_TAG="local"
 ROS_DISTRO=${ROS_DISTRO:-melodic}
 USER_ID=${USER_ID:-"$(id -u)"}
 SUFFIX="-cuda"
