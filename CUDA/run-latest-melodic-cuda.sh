@@ -4,7 +4,6 @@
 IMAGE_NAME="nubonetics/autoware"
 AUTOWARE_TAG="latest"
 ROS_DISTRO=${ROS_DISTRO:-melodic}
-USER_ID=${USER_ID:-"$(id -u)"}
 SUFFIX="-cuda"
 IMAGE=$IMAGE_NAME:$AUTOWARE_TAG-$ROS_DISTRO$SUFFIX
 
@@ -28,9 +27,9 @@ docker run \
     $VOLUMES \
     --env="XAUTHORITY=${XAUTH}" \
     --env="DISPLAY=${DISPLAY}" \
-    --env="USER_ID=$USER_ID" \
     --privileged \
     --net=host \
+    --user="autoware" \
     $RUNTIME \
     $IMAGE \
     /bin/bash
