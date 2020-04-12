@@ -33,7 +33,7 @@ RUN bash -c 'mkdir -p $AUTOWARE_WORKSPACE/src; \
 
 # Build catkin packages
 RUN source /opt/ros/melodic/setup.bash && \
-    source $AUTOWARE_WORKSPACE/install/local_setup.bash && \
+    source $AUTOWARE_WORKSPACE/install/local_setup.bash --extended && \
     cd /home/$USERNAME && \
     mkdir -p catkin_ws/src && cd catkin_ws/src && \
     git clone https://github.com/Nubonetics-Solutions/autoware-mqtt.git && \
